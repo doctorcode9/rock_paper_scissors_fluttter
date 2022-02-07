@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:rock_paper_scisor_game/utilis/game.dart';
 import 'package:rock_paper_scisor_game/widgets/button.dart';
 
-class MainScreen extends StatefulWidget {
-  const MainScreen({Key? key}) : super(key: key);
+class GameScreen extends StatefulWidget {
+  const GameScreen({Key? key}) : super(key: key);
 
   @override
-  _MainScreenState createState() => _MainScreenState();
+  _GameScreenState createState() => _GameScreenState();
 }
 
-class _MainScreenState extends State<MainScreen> {
+class _GameScreenState extends State<GameScreen> {
   @override
   Widget build(BuildContext context) {
     double btnWidth = MediaQuery.of(context).size.width / 2 - 40;
