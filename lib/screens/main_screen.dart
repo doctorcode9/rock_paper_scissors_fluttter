@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rock_paper_scisor_game/screens/results_screen.dart';
 import 'package:rock_paper_scisor_game/utilis/game.dart';
 import 'package:rock_paper_scisor_game/widgets/button.dart';
 
@@ -62,27 +63,57 @@ class _MainScreenState extends State<MainScreen> {
                       left: MediaQuery.of(context).size.width / 2 -
                           (btnWidth / 2) -
                           20, // we soustract the half of ther widget size and the half of the padding,
-                      child: gameBtn(() {
-                        print("you choosed rock");
-                      }, "assets/rock_btn.png", btnWidth),
+                      child: Hero(
+                        tag: "Rock",
+                        child: gameBtn(() {
+                          print("you choosed rock");
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  GameScreen(GameChoice("Rock")),
+                            ),
+                          );
+                        }, "assets/rock_btn.png", btnWidth),
+                      ),
                     ),
                     Positioned(
                       top: btnWidth,
                       left: MediaQuery.of(context).size.width / 2 -
                           btnWidth -
                           40, // we soustract the half of ther widget size and the half of the padding,
-                      child: gameBtn(() {
-                        print("you choosed scisors");
-                      }, "assets/scisor_btn.png", btnWidth),
+                      child: Hero(
+                        tag: "Scisors",
+                        child: gameBtn(() {
+                          print("you choosed scisors");
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  GameScreen(GameChoice("Scisors")),
+                            ),
+                          );
+                        }, "assets/scisor_btn.png", btnWidth),
+                      ),
                     ),
                     Positioned(
                       top: btnWidth,
                       right: MediaQuery.of(context).size.width / 2 -
                           btnWidth -
                           40, // we soustract the half of ther widget size and the half of the padding,
-                      child: gameBtn(() {
-                        print("you choosed paper");
-                      }, "assets/paper_btn.png", btnWidth),
+                      child: Hero(
+                        tag: "Paper",
+                        child: gameBtn(() {
+                          print("you choosed paper");
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  GameScreen(GameChoice("Paper")),
+                            ),
+                          );
+                        }, "assets/paper_btn.png", btnWidth),
+                      ),
                     ),
                   ],
                 ),

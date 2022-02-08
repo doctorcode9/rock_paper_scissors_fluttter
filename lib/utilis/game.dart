@@ -1,8 +1,9 @@
 class Game {
   static int gameScore = 0;
+  static List<String> choices = ["Rock", "Paper", "Scisors"];
 }
 
-class Choice {
+class GameChoice {
   String? type = "";
   static var gameRules = {
     "Rock": {
@@ -21,5 +22,5 @@ class Choice {
       "Scisors": "It's a Draw",
     }
   };
-  Choice(this.type);
+  GameChoice(this.type);
 }

@@ -1,17 +1,60 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:rock_paper_scisor_game/screens/main_screen.dart';
 import 'package:rock_paper_scisor_game/utilis/game.dart';
 import 'package:rock_paper_scisor_game/widgets/button.dart';
 
 class GameScreen extends StatefulWidget {
-  const GameScreen({Key? key}) : super(key: key);
-
+  GameScreen(this.gameChoice, {Key? key}) : super(key: key);
+  GameChoice gameChoice;
   @override
   _GameScreenState createState() => _GameScreenState();
 }
 
 class _GameScreenState extends State<GameScreen> {
+  /* Generating random choice */
+  String? randomChoice() {
+    Random random = new Random();
+    int robotChoiceIndex = random.nextInt(3);
+    return Game.choices[robotChoiceIndex];
+  }
+
   @override
   Widget build(BuildContext context) {
+    String robotChoice = randomChoice()!;
+    String? robotChoicePath;
+    switch (robotChoice) {
+      case "Rock":
+        robotChoicePath = "assets/rock_btn.png";
+        break;
+      case "Paper":
+        robotChoicePath = "assets/paper_btn.png";
+        break;
+      case "Scisors":
+        robotChoicePath = "assets/scisor_btn.png";
+        break;
+      default:
+    }
+    String? player_choice;
+    switch (widget.gameChoice.type) {
+      case "Rock":
+        player_choice = "assets/rock_btn.png";
+        break;
+      case "Paper":
+        player_choice = "assets/paper_btn.png";
+        break;
+      case "Scisors":
+        player_choice = "assets/scisor_btn.png";
+        break;
+      default:
+    }
+    if (GameChoice.gameRules[widget.gameChoice.type]![robotChoice] ==
+        "You Win") {
+      setState(() {
+        Game.gameScore++;
+      });
+    }
     double btnWidth = MediaQuery.of(context).size.width / 2 - 40;
     return Scaffold(
       backgroundColor: Color(0xFF060A47),
@@ -51,42 +94,59 @@ class _GameScreenState extends State<GameScreen> {
             ),
 
             /* Setting the Game play pad */
-            Container(
-              width: double.infinity,
-              height: MediaQuery.of(context).size.height / 2,
+            Expanded(
               child: Center(
-                child: Stack(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Positioned(
-                      top: 0,
-                      left: MediaQuery.of(context).size.width / 2 -
-                          (btnWidth / 2) -
-                          20, // we soustract the half of ther widget size and the half of the padding,
-                      child: gameBtn(() {
-                        print("you choosed rock");
-                      }, "assets/rock_btn.png", btnWidth),
+                    Hero(
+                      tag: "${widget.gameChoice.type}",
+                      child: gameBtn(() {}, player_choice!, btnWidth - 20),
                     ),
-                    Positioned(
-                      top: btnWidth,
-                      left: MediaQuery.of(context).size.width / 2 -
-                          btnWidth -
-                          40, // we soustract the half of ther widget size and the half of the padding,
-                      child: gameBtn(() {
-                        print("you choosed scisors");
-                      }, "assets/scisor_btn.png", btnWidth),
+                    Text(
+                      "VS",
+                      style: TextStyle(color: Colors.white, fontSize: 26.0),
                     ),
-                    Positioned(
-                      top: btnWidth,
-                      right: MediaQuery.of(context).size.width / 2 -
-                          btnWidth -
-                          40, // we soustract the half of ther widget size and the half of the padding,
-                      child: gameBtn(() {
-                        print("you choosed paper");
-                      }, "assets/paper_btn.png", btnWidth),
-                    ),
+                    AnimatedOpacity(
+                      opacity: 1,
+                      duration: Duration(seconds: 3),
+                      child: gameBtn(() {}, robotChoicePath!, btnWidth - 20),
+                    )
                   ],
                 ),
               ),
+            ),
+            Text(
+              "${GameChoice.gameRules[widget.gameChoice.type]![robotChoice]}",
+              style: TextStyle(color: Colors.white, fontSize: 36.0),
+            ),
+            SizedBox(
+              height: 30.0,
+            ),
+            Container(
+              width: double.infinity,
+              child: RawMaterialButton(
+                padding: EdgeInsets.all(24.0),
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => MainScreen(),
+                      ));
+                },
+                shape: StadiumBorder(),
+                fillColor: Colors.white,
+                child: Text(
+                  "Play Again",
+                  style: TextStyle(
+                      color: Color(0xFF060A47),
+                      fontSize: 26.0,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 20.0,
             ),
             Container(
               width: double.infinity,
